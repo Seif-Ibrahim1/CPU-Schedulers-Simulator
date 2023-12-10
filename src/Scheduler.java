@@ -9,15 +9,32 @@ public abstract class Scheduler {
 
     public abstract void run();
 
-    public double getAverageTurnAroundTime() {
+    protected double getAverageTurnAroundTime() {
         double totalTurnAroundTime = 0;
         for (Process process : processes) {
             totalTurnAroundTime += process.getTurnaroundTime();
         }
         return totalTurnAroundTime / processes.size();
     }
+    protected void modifyWaitingTime(int processId, int newWaitingTime) {
+        for (Process process : processes) {
+            if (process.getId() == processId) {
+                process.setWaitingTime(newWaitingTime);
+                return;
+            }
+        }
+    }
 
-    public double getAverageWaitingTime() {
+    protected void modifyTurnaroundTime(int processId, int newTurnaroundTime) {
+        for (Process process : processes) {
+            if (process.getId() == processId) {
+                process.setTurnaroundTime(newTurnaroundTime);
+                return;
+            }
+        }
+    }
+
+    protected double getAverageWaitingTime() {
         double totalWaitingTime = 0;
         for (Process process : processes) {
             totalWaitingTime += process.getWaitingTime();
@@ -25,13 +42,13 @@ public abstract class Scheduler {
         return totalWaitingTime / processes.size();
     }
 
-    void printWaitingTime() {
+    protected void printWaitingTime() {
         for (Process process : processes) {
             System.out.println("Process " + process.getName() + " waiting time: " + process.getWaitingTime());
         }
     }
 
-    void printTurnAroundTime() {
+    protected void printTurnAroundTime() {
         for (Process process : processes) {
             System.out.println("Process " + process.getName() + " turnaround time: " + process.getTurnaroundTime());
         }
