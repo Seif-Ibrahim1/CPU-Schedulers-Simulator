@@ -1,6 +1,6 @@
 public class Process {
     private String name;
-    private int id; // maybe we don't need this but just in case
+    private int id;
     private int arrivalTime;
     private int burstTime;
     private int priority;
@@ -9,7 +9,7 @@ public class Process {
     private int remainingBurstTime;
     private int finishedTime;
 
-    public Process(String name, int arrivalTime, int burstTime, int priority) {
+    public Process(String name, int arrivalTime, int burstTime, int priority, int id) {
         this.name = name;
         this.arrivalTime = arrivalTime;
         this.burstTime = burstTime;
@@ -18,6 +18,7 @@ public class Process {
         this.waitingTime = 0;
         this.remainingBurstTime = burstTime;
         this.finishedTime = 0;
+        this.id = id;
     }
 
     public String getName() {
@@ -52,6 +53,10 @@ public class Process {
         return finishedTime;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public void setTurnaroundTime(int turnaroundTime) {
         this.turnaroundTime = turnaroundTime;
     }
@@ -74,6 +79,10 @@ public class Process {
 
     public void setPriority(int priority) {
         this.priority = priority;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int calculateTurnaroundTime() {
