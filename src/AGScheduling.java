@@ -11,19 +11,22 @@ public class AGScheduling extends Scheduler {
     public AGScheduling(ArrayList<Process> processes, int RRTimeQuantum) {
         super(processes);
         this.RRTimeQuantum = RRTimeQuantum;
-        // quantumHistory = new HashMap<Integer, ArrayList<Integer>>();
-        // for (int i = 0; i < processes.size(); i++) {
-        //     quantumHistory.add(new ArrayList<Integer>());
-        //     quantumHistory.get(i).add(RRTimeQuantum);
-        // }
+        quantumHistory = new HashMap<Integer, ArrayList<Integer>>();
+        for (int i = 0; i < processes.size(); i++) {
+            quantumHistory.put(processes.get(i).getId(), new ArrayList<Integer>());
+            quantumHistory.get(processes.get(i).getId()).add(RRTimeQuantum);
+        }
 
-        // currentTimeQuantams = new ArrayList<Integer>(processes.size());
-        // for (int i = 0; i < processes.size(); i++) {
-        //     currentTimeQuantams.add(RRTimeQuantum);
-        // }
+        currentTimeQuantams = new HashMap<Integer, Integer>();
+        for (int i = 0; i < processes.size(); i++) {
+            currentTimeQuantams.put(processes.get(i).getId(), RRTimeQuantum);
+        }
 
-        // reeadyQueue = new ArrayList<Process>();
-        // AGFactors = new HashMap<Integer, Integer>();
+        reeadyQueue = new ArrayList<Process>();
+        AGFactors = new HashMap<Integer, Integer>();
+        for (int i = 0; i < processes.size(); i++) {
+            AGFactors.put(processes.get(i).getId(), calcAGFactor(processes.get(i)));
+        }
         
         
     }
