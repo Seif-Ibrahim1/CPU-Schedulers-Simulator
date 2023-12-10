@@ -3,27 +3,27 @@ import java.util.HashMap;
 
 public class AGScheduling extends Scheduler {
     private int RRTimeQuantum;
-    private ArrayList<ArrayList<Integer>> quantumHistory;
-    private ArrayList<Integer> currentTimeQuantams; 
+    private HashMap<Integer, ArrayList<Integer>> quantumHistory;
+    private HashMap<Integer, Integer> currentTimeQuantams; 
     private ArrayList<Process> reeadyQueue;
     private HashMap<Integer, Integer> AGFactors;
     
     public AGScheduling(ArrayList<Process> processes, int RRTimeQuantum) {
         super(processes);
         this.RRTimeQuantum = RRTimeQuantum;
-        quantumHistory = new ArrayList<ArrayList<Integer>>(processes.size());
-        for (int i = 0; i < processes.size(); i++) {
-            quantumHistory.add(new ArrayList<Integer>());
-            quantumHistory.get(i).add(RRTimeQuantum);
-        }
+        // quantumHistory = new HashMap<Integer, ArrayList<Integer>>();
+        // for (int i = 0; i < processes.size(); i++) {
+        //     quantumHistory.add(new ArrayList<Integer>());
+        //     quantumHistory.get(i).add(RRTimeQuantum);
+        // }
 
-        currentTimeQuantams = new ArrayList<Integer>(processes.size());
-        for (int i = 0; i < processes.size(); i++) {
-            currentTimeQuantams.add(RRTimeQuantum);
-        }
+        // currentTimeQuantams = new ArrayList<Integer>(processes.size());
+        // for (int i = 0; i < processes.size(); i++) {
+        //     currentTimeQuantams.add(RRTimeQuantum);
+        // }
 
-        reeadyQueue = new ArrayList<Process>();
-        AGFactors = new HashMap<Integer, Integer>();
+        // reeadyQueue = new ArrayList<Process>();
+        // AGFactors = new HashMap<Integer, Integer>();
         
         
     }
