@@ -24,6 +24,15 @@ public abstract class Scheduler {
             }
         }
     }
+    protected String getProcessNameById(int id) {
+        for (Process process : processes) {
+            if (process.getId() == id) {
+                return process.getName();
+            }
+        }
+        //
+        return null;
+    }
 
     protected void modifyTurnaroundTime(int processId, int newTurnaroundTime) {
         for (Process process : processes) {
