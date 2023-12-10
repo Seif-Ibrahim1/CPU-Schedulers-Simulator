@@ -9,4 +9,8 @@ public class SRTFScheduling extends Scheduler implements StarvationHandler{
         return false;
     }
 
+    public void run() {
+        
+    }
+
 }

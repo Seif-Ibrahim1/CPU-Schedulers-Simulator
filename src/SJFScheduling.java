@@ -7,5 +7,9 @@ public class SJFScheduling extends Scheduler {
         super(processes);
         this.contextSwitchTime = contextSwitchTime;
     }
+
+    public void run() {
+        
+    }
     
 }

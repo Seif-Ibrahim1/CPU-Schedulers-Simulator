@@ -8,4 +8,8 @@ public class PriorityScheduling extends Scheduler implements StarvationHandler {
     public boolean checkForStravation(Process process) {
         return false;
     }
+
+    public void run() {
+        
+    }
 }

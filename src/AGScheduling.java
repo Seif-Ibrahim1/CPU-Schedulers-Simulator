@@ -7,4 +7,8 @@ public class AGScheduling extends Scheduler {
         super(processes);
         this.RRTimeQuantum = RRTimeQuantum;
     }
+
+    public void run() {
+        
+    }
 }
