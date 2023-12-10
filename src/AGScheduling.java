@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class AGScheduling extends Scheduler {
     private int RRTimeQuantum;
@@ -52,6 +53,19 @@ public class AGScheduling extends Scheduler {
         }
         
         
+    }
+
+    public void printQuantumHistory() {
+        for (Map.Entry<Integer, ArrayList<Integer>> entry : quantumHistory.entrySet()) {
+            Integer key = entry.getKey();
+            ArrayList<Integer> values = entry.getValue();
+            String name = getProcessNameById(key);
+            System.out.print("process name: " + name + ", Values: ");
+            for (Integer value : values) {
+                System.out.print(value + " ");
+            }
+            System.out.println();
+        }
     }
 
     public int convertToPreemptive(int timeQuantum) {
@@ -305,6 +319,9 @@ public class AGScheduling extends Scheduler {
 
         double AVGTurnaroundTime = getAverageTurnAroundTime();
         System.out.println("Average Turnaround Time : " + AVGTurnaroundTime);
+        System.out.println("==========================================================================");
+        System.out.println("History of quantum time of all processes");
+        printQuantumHistory();
         System.out.println("==========================================================================");
 
 
