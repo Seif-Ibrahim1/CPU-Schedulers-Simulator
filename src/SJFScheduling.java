@@ -51,6 +51,7 @@ public class SJFScheduling extends Scheduler {
                     process.setTurnaroundTime(process.getFinishedTime() - process.getArrivalTime());
 
                     process.setWaitingTime(process.getTurnaroundTime() - process.getBurstTime());
+                    process.setStartTime(currentTime);
 
                     // Display process execution information
                     System.out.println("Process name : " + process.getName() + " : " + currentTime + " -> " + (currentTime + process.getBurstTime()));

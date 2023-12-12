@@ -1,6 +1,10 @@
-public class Process {
+import java.awt.*;
+import java.util.Comparator;
+
+public class Process implements Comparator<Process> {
     private String name;
     private int id;
+    private Color color;
     private int arrivalTime;
     private int burstTime;
     private int priority;
@@ -8,8 +12,8 @@ public class Process {
     private int waitingTime;
     private int remainingBurstTime;
     private int finishedTime;
-
     private int startTime;
+    
     private int oldPriority;
 
     //==================================================================================================================
@@ -34,6 +38,7 @@ public class Process {
         this.remainingBurstTime = burstTime;
         this.finishedTime = 0;
         this.id = id;
+        this.color = color;
         this.startTime = 0;
     }
 
@@ -102,6 +107,10 @@ public class Process {
     public int getId() {
         return id;
     }
+    public Color getColor() {return color;}
+    public int getStartTime() {return startTime;}
+    public void setStartTime(int startTime) {this.startTime = startTime;}
+    public void setColor(Color color) {this.color = color;}
 
     //==================================================================================================================
 
@@ -166,16 +175,6 @@ public class Process {
     public int calculateWaitingTime() {
         return turnaroundTime - burstTime;
     }
-
-    public int getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(int startTime) {
-        this.startTime = startTime;
-    }
-
-
     //==================================================================================================================
 
     /**
@@ -189,9 +188,14 @@ public class Process {
         return Integer.compare(this.arrivalTime, process.arrivalTime);
     }
 
-    //==================================================================================================================
-
-
 }
+
+
+
+
+
+
+
+    //=================================================================================================================
 
 
