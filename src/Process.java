@@ -1,4 +1,4 @@
-public class Process {
+public class Process implements Comparable<Process> {
     private String name;
     private int id;
     private int arrivalTime;
@@ -92,4 +92,12 @@ public class Process {
     public int calculateWaitingTime() {
         return turnaroundTime - burstTime;
     }
+
+    // for sorting processes by arrival time
+    @Override
+    public int compareTo(Process process) {
+        return Integer.compare(this.arrivalTime, process.arrivalTime);
+    }
+
+  
 }

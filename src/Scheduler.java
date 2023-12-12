@@ -1,10 +1,12 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
 public abstract class Scheduler {
     protected ArrayList<Process> processes;
 
     public Scheduler(ArrayList<Process> processes) {
         this.processes = processes;
+        Collections.sort(this.processes);
     }
 
     public abstract void run();
