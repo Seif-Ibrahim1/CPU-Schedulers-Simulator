@@ -31,25 +31,26 @@ public class AGScheduling extends Scheduler {
         AGFactors = new HashMap<Integer, Integer>();
         for (int i = 0; i < processes.size(); i++) {
 
-            if(i==0){
-                AGFactors.put(processes.get(i).getId(), 20);
+            // if(i==0){
+            //     AGFactors.put(processes.get(i).getId(), 20);
 
 
-            }
-            else if (i==1){
-                AGFactors.put(processes.get(i).getId(), 17);
+            // }
+            // else if (i==1){
+            //     AGFactors.put(processes.get(i).getId(), 17);
 
-            }
-            else if (i==2){
-                AGFactors.put(processes.get(i).getId(), 16);
+            // }
+            // else if (i==2){
+            //     AGFactors.put(processes.get(i).getId(), 16);
 
-            }
-            else if(i==3){
-                AGFactors.put(processes.get(i).getId(), 43);
+            // }
+            // else if(i==3){
+            //     AGFactors.put(processes.get(i).getId(), 43);
 
-            }
+            // }
 
-//            AGFactors.put(processes.get(i).getId(), calcAGFactor(processes.get(i)));
+            AGFactors.put(processes.get(i).getId(), calcAGFactor(processes.get(i)));
+            System.out.println("process name : " + processes.get(i).getName() + " AG factor : " + AGFactors.get(processes.get(i).getId()));
         }
         
         
@@ -83,7 +84,7 @@ public class AGScheduling extends Scheduler {
     
 
     public int calcAGFactor(Process process) {
-        int rand = (int) Math.random() * 20;
+        int rand = (int)(Math.random() * 20);
         if(rand < 10) {
             return process.getBurstTime() + process.getArrivalTime() + rand;
         } else if (rand > 10) {
@@ -133,6 +134,7 @@ public class AGScheduling extends Scheduler {
         int startedTime = 0;
         boolean isThereRunningProcess = false;
         Process runningProcess = null; // process that running at cpu
+
         while(true){
             if(dieList.size() == processes.size()){
                 break;
@@ -166,10 +168,9 @@ public class AGScheduling extends Scheduler {
                 System.out.println("process name : " + runningProcess.getName() + " : " + startedTime + " -> " + time);
                 startedTime = time;
 
-                // process has job to do (scenario 1)
+                // process still has job to do (scenario 1)
 
                 if(runningProcess.getRemainingBurstTime()!=0){
-
 
                     //update quantum time
                     int increasedQuantum = (int) Math.ceil(0.1 * getMean());
@@ -177,86 +178,61 @@ public class AGScheduling extends Scheduler {
                     currentTimeQuantams.put(runningProcess.getId(), newQuantum );
                     quantumHistory.get(runningProcess.getId()).add(newQuantum);
 
-
-
                     // no process in ready queue
-                    if(reeadyQueue.size()==0){
+                    if(reeadyQueue.size()==0) {
                         time++;
                         startedTime = time;
-                        continue;
-                    }else{
+                    } else{
                         reeadyQueue.add(runningProcess);
                         runningProcess = reeadyQueue.get(0);
-
                         reeadyQueue.remove(0);
-                        continue;
                     }
+                    continue;
 
 
                 }
-                // process finished its job(scenario 3)
+                // process finished its job with it's quantum(scenario 3)
                 else{
-
-                    currentTimeQuantams.remove(runningProcess.getId());
-                    quantumHistory.get(runningProcess.getId()).add(0);
-                    dieList.add(runningProcess);
-
-                    runningProcess.setFinishedTime(time);
-                    int TurnaroundTime = runningProcess.calculateTurnaroundTime();
-                    modifyTurnaroundTime(runningProcess.getId(), TurnaroundTime);
-                    int waitingTime = runningProcess.calculateWaitingTime();
-                    modifyWaitingTime(runningProcess.getId(),waitingTime);
-
-                    if(reeadyQueue.size()==0){
+                    
+                    // execute the process and check if there is process in ready queue to execute next
+                    // if there is no process in ready queue
+                    if(!finishProcess(runningProcess, time)) {
                         time++;
                         startedTime = time;
-
                         isThereRunningProcess = false;
-
-                    }
-                    else{
-
+                    } else { // if there is process in ready queue
                         runningProcess = reeadyQueue.get(0);
                         reeadyQueue.remove(0);
-
                     }
+                    
                     continue;
                 }
             }
 
-            // process finished its job(scenario 3)
+            // process finished its job before quantum time (scenario 3)
 
             if(runningProcess.getRemainingBurstTime()==0) {
                 System.out.println("process name : " + runningProcess.getName() + " : " + startedTime + " -> " + time);
                 startedTime = time;
 
-                currentTimeQuantams.remove(runningProcess.getId());
-                quantumHistory.get(runningProcess.getId()).add(0);
-                dieList.add(runningProcess);
-                runningProcess.setFinishedTime(time);
-                int TurnaroundTime = runningProcess.calculateTurnaroundTime();
-                modifyTurnaroundTime(runningProcess.getId(), TurnaroundTime);
-                int waitingTime = runningProcess.calculateWaitingTime();
-                modifyWaitingTime(runningProcess.getId(),waitingTime);
-                if(reeadyQueue.size()==0){
+                // execute the process and check if there is process in ready queue to execute next
+                // if there is no process in ready queue
+                if(!finishProcess(runningProcess, time)) {
                     time++;
                     startedTime = time;
                     isThereRunningProcess = false;
-
-                }
-                else{
-
+                } else { // if there is process in ready queue
                     runningProcess = reeadyQueue.get(0);
                     reeadyQueue.remove(0);
-
                 }
+
                 continue;
 
             }
 
 
 
-                // non-preemptive AG
+            // non-preemptive AG
             if( (time - startedTime) < convertToPreemptive(currentTimeQuantams.get(runningProcess.getId())) ){
                 time++;
                 runningProcess.setRemainingBurstTime(runningProcess.getRemainingBurstTime()-1);
@@ -292,18 +268,11 @@ public class AGScheduling extends Scheduler {
                         runningProcess = reeadyQueue.get(position);
                         reeadyQueue.remove(position);
 
-
-
                     }
 
                 }
 
             }
-
-
-
-
-
 
         }
 
@@ -325,6 +294,19 @@ public class AGScheduling extends Scheduler {
         System.out.println("==========================================================================");
 
 
+    }
+
+    // finish execution of process and return true if there is process in ready queue to execute next
+    boolean finishProcess(Process runningProcess, int time) {   
+        currentTimeQuantams.remove(runningProcess.getId());
+        quantumHistory.get(runningProcess.getId()).add(0);
+        dieList.add(runningProcess);
+        runningProcess.setFinishedTime(time);
+        int TurnaroundTime = runningProcess.calculateTurnaroundTime();
+        modifyTurnaroundTime(runningProcess.getId(), TurnaroundTime);
+        int waitingTime = runningProcess.calculateWaitingTime();
+        modifyWaitingTime(runningProcess.getId(),waitingTime);
+        return (reeadyQueue.size()!=0);
     }
 
 
