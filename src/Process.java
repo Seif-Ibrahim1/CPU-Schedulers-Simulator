@@ -1,7 +1,7 @@
 import java.awt.*;
 import java.util.Comparator;
 
-public class Process implements Comparator<Process> {
+public class Process implements Comparable<Process> {
     private String name;
     private int id;
     private Color color;
@@ -27,7 +27,7 @@ public class Process implements Comparator<Process> {
      * @param priority       of the process.
      * @param id             of the process.
      */
-    public Process(String name, int arrivalTime, int burstTime, int priority, int id) {
+    public Process(String name, int arrivalTime, int burstTime, int priority, int id, Color color) {
         this.name = name;
         this.arrivalTime = arrivalTime;
         this.burstTime = burstTime;
