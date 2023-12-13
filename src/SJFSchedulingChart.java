@@ -2,14 +2,25 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class GanttChartGUI extends JFrame {
+/**
+ * SJFSchedulingChart class extends JFrame to display a Gantt chart representing the Shortest Job First (SJF) scheduling algorithm.
+ */
+public class SJFSchedulingChart extends JFrame {
 
     private ArrayList<Process> processes;
     private double averageWaitingTime;
     private double averageTurnaroundTime;
     private int contextSwitchingTime;
 
-    public GanttChartGUI(ArrayList<Process> processes, double averageWaitingTime, double averageTurnaroundTime, int contextSwitchingTime) {
+    /**
+     * Constructor for SJFSchedulingChart class.
+     *
+     * @param processes              ArrayList of processes to be scheduled
+     * @param averageWaitingTime     Average waiting time of the schedule
+     * @param averageTurnaroundTime  Average turnaround time of the schedule
+     * @param contextSwitchingTime   Time taken for context switching
+     */
+    public SJFSchedulingChart(ArrayList<Process> processes, double averageWaitingTime, double averageTurnaroundTime, int contextSwitchingTime) {
         this.processes = processes;
         this.averageWaitingTime = averageWaitingTime;
         this.averageTurnaroundTime = averageTurnaroundTime;
@@ -34,8 +45,13 @@ public class GanttChartGUI extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Draws the Gantt chart representing the scheduling algorithm.
+     *
+     * @param g Graphics object used for drawing
+     */
     private void drawChart(Graphics g) {
-
+        // Drawing the title
         Font titleFont = new Font("Arial", Font.BOLD, 23);
         g.setColor(Color.red);
         g.setFont(titleFont);
@@ -50,26 +66,32 @@ public class GanttChartGUI extends JFrame {
 
         for (Process process : processes) {
             int executionStart = process.getStartTime();
-            int executionEnd = process.getFinishedTime() -contextSwitchingTime;
+            int executionEnd = process.getFinishedTime() - contextSwitchingTime;
             int barStart = (int) (((double) executionStart / totalExecutionTime) * 500);
             int barLength = (int) (((double) (executionEnd - executionStart) / totalExecutionTime) * 500);
             int contextSwitchingBarLength = (int) (((double) contextSwitchingTime / totalExecutionTime) * 500);
 
-
             g.setColor(Color.BLACK);
-            g.drawString( process.getName(), 10, y + 20);
+            g.drawString(process.getName(), 10, y + 20);
 
             g.setColor(process.getColor());
             g.fillRect(50 + barStart, y, barLength, 30);
 
+            // Filling the gap between the end of the process and the start of the next process with black color
             g.setColor(Color.BLACK);
             g.fillRect(50 + barStart + barLength, y, contextSwitchingBarLength, 30);
 
             y += 50;
         }
         displayProcessInfo(g);
-        displayStatistics( g);
+        displayStatistics(g);
     }
+
+    /**
+     * Displays process information on the chart.
+     *
+     * @param g Graphics object used for drawing
+     */
     private void displayProcessInfo(Graphics g) {
         Font titleFont = new Font("Arial", Font.BOLD, 23);
         g.setColor(Color.red);
@@ -91,20 +113,35 @@ public class GanttChartGUI extends JFrame {
 
             y += 50;
         }
+        // Displaying context switching time information
         g.drawString("Context Switching Time: " + contextSwitchingTime, 700, y + 15);
         g.setColor(Color.BLACK);
         g.fillRect(900, y, 20, 20);
     }
-    private void displayStatistics(Graphics g){
-        Font titleFont = new Font("Arial", Font.BOLD, 20);
+
+    /**
+     * Displays statistics related to the scheduling algorithm.
+     *
+     * @param g Graphics object used for drawing
+     */
+    private void displayStatistics(Graphics g) {
+        Font titleFont = new Font("Arial", Font.BOLD, 18);
         g.setColor(Color.red);
         g.setFont(titleFont);
         g.drawString("Statistics", 50, 400);
         g.setColor(Color.BLACK);
-        g.drawString("Average Waiting Time: " +averageWaitingTime, 50, 450);
+        g.drawString("Schedule Name: SJFSchedule", 50, 450);
         g.setColor(Color.BLACK);
-        g.drawString("Average Turnaround Time: " +averageTurnaroundTime, 50, 500);
+        g.drawString("Average Waiting Time: " + averageWaitingTime, 50, 500);
+        g.setColor(Color.BLACK);
+        g.drawString("Average Turnaround Time: " + averageTurnaroundTime, 50, 550);
     }
+
+    /**
+     * Calculates the maximum time among all processes.
+     *
+     * @return Maximum time among all processes
+     */
     private int calculateMaxTime() {
         int maxTime = 0;
         for (Process process : processes) {
