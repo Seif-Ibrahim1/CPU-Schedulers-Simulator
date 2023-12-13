@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 
+
 /**
  * Scheduler abstract class that contains the common attributes and methods between all schedules.
  */
@@ -118,9 +119,26 @@ public abstract class Scheduler {
      * print the waiting time for each process.
      */
     protected void printWaitingTime() {
+        String str = String.format("%-20s", "Waiting time:");
+        System.out.print(str);
         for (Process process : processes) {
-            System.out.println("Process " + process.getName() + " waiting time: " + process.getWaitingTime());
+            String formattedWaitingTime = String.format("%-10s", process.getWaitingTime());
+            System.out.print(formattedWaitingTime);
         }
+        System.out.println();
+    }
+    //==================================================================================================================
+    /**
+     * print the process names.
+     */
+    protected void printProcessNames() {
+        String str = String.format("%-20s", "ProcessName:");
+        System.out.print(str);
+        for (Process process : processes) {
+            String Name = String.format("%-10s", process.getName());
+            System.out.print(Name);
+        }
+        System.out.println();
     }
 
     //==================================================================================================================
@@ -129,9 +147,13 @@ public abstract class Scheduler {
      * print the Turnaround time for each process.
      */
     protected void printTurnAroundTime() {
+        String str = String.format("%-20s", "Turnaround time:");
+        System.out.print(str);
         for (Process process : processes) {
-            System.out.println("Process " + process.getName() + " turnaround time: " + process.getTurnaroundTime());
+            String formattedTurnaroundTime = String.format("%-10s", process.getTurnaroundTime());
+            System.out.print(formattedTurnaroundTime);
         }
+        System.out.println();
     }
     //==================================================================================================================
 
