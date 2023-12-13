@@ -7,11 +7,13 @@ public class GanttChartGUI extends JFrame {
     private ArrayList<Process> processes;
     private double averageWaitingTime;
     private double averageTurnaroundTime;
+    private int contextSwitchingTime;
 
-    public GanttChartGUI(ArrayList<Process> processes, double averageWaitingTime, double averageTurnaroundTime) {
+    public GanttChartGUI(ArrayList<Process> processes, double averageWaitingTime, double averageTurnaroundTime, int contextSwitchingTime) {
         this.processes = processes;
         this.averageWaitingTime = averageWaitingTime;
         this.averageTurnaroundTime = averageTurnaroundTime;
+        this.contextSwitchingTime = contextSwitchingTime;
         setTitle("Gantt Chart");
         setSize(1200, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -48,9 +50,10 @@ public class GanttChartGUI extends JFrame {
 
         for (Process process : processes) {
             int executionStart = process.getStartTime();
-            int executionEnd = process.getFinishedTime() ;
+            int executionEnd = process.getFinishedTime() -contextSwitchingTime;
             int barStart = (int) (((double) executionStart / totalExecutionTime) * 500);
             int barLength = (int) (((double) (executionEnd - executionStart) / totalExecutionTime) * 500);
+            int contextSwitchingBarLength = (int) (((double) contextSwitchingTime / totalExecutionTime) * 500);
 
 
             g.setColor(Color.BLACK);
@@ -58,6 +61,9 @@ public class GanttChartGUI extends JFrame {
 
             g.setColor(process.getColor());
             g.fillRect(50 + barStart, y, barLength, 30);
+
+            g.setColor(Color.BLACK);
+            g.fillRect(50 + barStart + barLength, y, contextSwitchingBarLength, 30);
 
             y += 50;
         }
@@ -85,6 +91,9 @@ public class GanttChartGUI extends JFrame {
 
             y += 50;
         }
+        g.drawString("Context Switching Time: " + contextSwitchingTime, 700, y + 15);
+        g.setColor(Color.BLACK);
+        g.fillRect(900, y, 20, 20);
     }
     private void displayStatistics(Graphics g){
         Font titleFont = new Font("Arial", Font.BOLD, 20);

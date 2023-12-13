@@ -6,7 +6,7 @@ import java.util.Comparator;
  * SJFScheduling class implementing the Shortest Job First (SJF) scheduling algorithm.
  */
 public class SJFScheduling extends Scheduler {
-    private int contextSwitchTime;
+    public int contextSwitchTime;
 
     /**
      * Constructor for SJFScheduling class.
