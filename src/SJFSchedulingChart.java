@@ -18,8 +18,8 @@ public class SJFSchedulingChart extends GUI {
      * @param contextSwitchingTime   Time taken for context switching
      */
     public SJFSchedulingChart(ArrayList<Process> processes, double averageWaitingTime,
-                              double averageTurnaroundTime, int contextSwitchingTime) {
-        super(processes, averageWaitingTime, averageTurnaroundTime);
+                              double averageTurnaroundTime, String scheduleName, int contextSwitchingTime) {
+        super(processes, averageWaitingTime, averageTurnaroundTime , scheduleName );
         this.contextSwitchingTime = contextSwitchingTime;
     }
 
@@ -28,7 +28,8 @@ public class SJFSchedulingChart extends GUI {
      *
      * @param g Graphics object used for drawing
      */
-    protected void drawChart(Graphics g) {
+    @Override
+    protected void drawChart(Graphics g , String scheduleName) {
         // Drawing the title
         Font titleFont = new Font("Arial", Font.BOLD, 23);
         g.setColor(Color.red);
@@ -45,26 +46,31 @@ public class SJFSchedulingChart extends GUI {
 
         // Draw bars for each process
         for (Process process : processes) {
-            int executionStart = process.getStartTime();
-            int executionEnd = process.getFinishedTime() - contextSwitchingTime;
-            int barStart = (int) (((double) executionStart / totalExecutionTime) * 500);
-            int barLength = (int) (((double) (executionEnd - executionStart) / totalExecutionTime) * 500);
-            int contextSwitchingBarLength = (int) (((double) contextSwitchingTime / totalExecutionTime) * 500);
+            int executionStart = 0;
+            int executionEnd = 0;
+            for (int i = 0; i < process.getTime().size(); i++) {
+                executionStart = process.getTime().get(i).getKey();
+                executionEnd = process.getTime().get(i).getValue() - contextSwitchingTime;
 
-            g.setColor(Color.BLACK);
-            g.drawString(process.getName(), 10, y + 20);
+                int barStart = (int) (((double) executionStart / totalExecutionTime) * 500);
+                int barLength = (int) (((double) (executionEnd - executionStart) / totalExecutionTime) * 500);
+                int contextSwitchingBarLength = (int) (((double) contextSwitchingTime / totalExecutionTime) * 500);
 
-            g.setColor(process.getColor());
-            g.fillRect(50 + barStart, y, barLength, 30);
+                g.setColor(Color.BLACK);
+                g.drawString(process.getName(), 10, y + 20);
 
-            // Fill the gap between the end of the process and the start of the next process with black color
-            g.setColor(Color.BLACK);
-            g.fillRect(50 + barStart + barLength, y, contextSwitchingBarLength, 30);
+                g.setColor(process.getColor());
+                g.fillRect(50 + barStart, y, barLength, 30);
 
-            y += 50;
+                // Fill the gap between the end of the process and the start of the next process with black color
+                g.setColor(Color.BLACK);
+                g.fillRect(50 + barStart + barLength, y, contextSwitchingBarLength, 30);
+
+                y += 50;
+            }
         }
         displayProcessInfo(g); // Display process information
-        displayStatistics(g, "SJFSchedule"); // Display scheduling statistics
+        displayStatistics(g, scheduleName); // Display scheduling statistics
     }
 
     /**
