@@ -3,7 +3,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Scanner;
 
 public class Main {
 
@@ -26,7 +25,7 @@ public class Main {
         double averageTurnaroundTime = scheduler.getAverageTurnAroundTime();
         int contextSwitchingTime = scheduler.contextSwitchTime;
         SwingUtilities.invokeLater(() -> {
-            GanttChartGUI chart = new GanttChartGUI(processes, averageWaitingTime, averageTurnaroundTime, contextSwitchingTime);
+            SJFSchedulingChart chart = new SJFSchedulingChart(processes, averageWaitingTime, averageTurnaroundTime, contextSwitchingTime);
             chart.setVisible(true);
         });
     }
