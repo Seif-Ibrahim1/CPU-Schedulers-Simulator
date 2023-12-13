@@ -8,12 +8,15 @@ public class SRTFScheduling extends Scheduler implements StarvationHandler {
         super(processes);
     }
 
+    /**
+     * Checks if the process is starved or not.
+     * @param process the process to be checked
+     * @return true if the process is starved, false otherwise
+     */
     public boolean checkForStravation(Process process) {
-        if(process.getWaitingTime() > 15){
-            return true;
-        }
-        return false;
+        return process.getWaitingTime() > 15;
     }
+
 
     public void run() {
         int currentTime = 0;
@@ -23,8 +26,8 @@ public class SRTFScheduling extends Scheduler implements StarvationHandler {
         ArrayList<String> executionOrder = new ArrayList<>();
 
         //fill the remainingTime array with burst time
-        for (int j = 0; j < processes.size(); j++) {
-            processes.get(j).setRemainingBurstTime(processes.get(j).getBurstTime());
+        for (Process process : processes) {
+            process.setRemainingBurstTime(process.getBurstTime());
         }
 
         while(completedProcesses < processes.size()){
@@ -34,18 +37,15 @@ public class SRTFScheduling extends Scheduler implements StarvationHandler {
                 if(checkForStravation(processes.get(i))){
                     executionOrder.add(processes.get(i).getName());
 
-                    System.out.println("Process name: " + processes.get(i).getName() + " : " + currentTime + " -> " + (currentTime + processes.get(i).getRemainingBurstTime()));
+//                    System.out.println("Process name: " + processes.get(i).getName() + " : " + currentTime + " -> " + (currentTime + processes.get(i).getRemainingBurstTime()));
                     currentTime += processes.get(i).getRemainingBurstTime();
                     processes.get(i).setFinishedTime(currentTime);
                     processes.get(i).setTurnaroundTime(processes.get(i).getFinishedTime() - processes.get(i).getArrivalTime());
-                    int x = processes.get(i).getTurnaroundTime() - processes.get(i).getRemainingBurstTime();
                     processes.get(i).setWaitingTime(processes.get(i).getTurnaroundTime() - processes.get(i).getRemainingBurstTime());
-                    processes.get(i).setRemainingBurstTime(processes.get(i).getRemainingBurstTime() - processes.get(i).getRemainingBurstTime());
-                    if(processes.get(i).getRemainingBurstTime() < 0){
-                        processes.get(i).setRemainingBurstTime(0);
-                    }
 
+                    processes.get(i).setRemainingBurstTime(0);
                     completedProcesses++;
+
                     //update the waiting time for all the processes except this one
                     for(int j = 0; j < processes.size(); j++) {
                         if (j != i && processes.get(j).getArrivalTime() <= currentTime && processes.get(i).getRemainingBurstTime() > 0) {
@@ -56,12 +56,12 @@ public class SRTFScheduling extends Scheduler implements StarvationHandler {
                 }
 
                 //find the process with the shortest remaining time
-                if (processes.get(i).getArrivalTime() <= currentTime && processes.get(i).getRemainingBurstTime() < shortestRT &&processes.get(i).getRemainingBurstTime() > 0) {
+                if (processes.get(i).getArrivalTime() <= currentTime && processes.get(i).getRemainingBurstTime() < shortestRT && processes.get(i).getRemainingBurstTime() > 0) {
                     shortestRT = processes.get(i).getRemainingBurstTime();
                     shortestRTIndx = i;
                 }
             }
-            //need to increase the current
+            //if there is no process with the shortest remaining time
             if(shortestRT == Integer.MAX_VALUE){
                 currentTime++;
                 continue;
@@ -78,7 +78,7 @@ public class SRTFScheduling extends Scheduler implements StarvationHandler {
                 }
             }
 
-            System.out.println("Process name: " + processes.get(shortestRTIndx).getName() + " : " + currentTime + " -> " + (currentTime + 1));
+//            System.out.println("Process name: " + processes.get(shortestRTIndx).getName() + " : " + currentTime + " -> " + (currentTime + 1));
             currentTime++;
 
 
@@ -114,8 +114,13 @@ public class SRTFScheduling extends Scheduler implements StarvationHandler {
     public void printExecutionOrder(ArrayList<String> executionOrder){
         System.out.println("Execution Order: ");
         for (int i = 0 ; i < executionOrder.size() ; i++){
-            //print all processes
-            System.out.print(executionOrder.get(i) + " ");
+            //print the distinct processes
+            if(i == 0){
+                System.out.print(executionOrder.get(i));
+            }
+            else if(!executionOrder.get(i).equals(executionOrder.get(i-1))){
+                System.out.print(" -> " + executionOrder.get(i));
+            }
         }
         System.out.println();
     }
