@@ -1,7 +1,7 @@
+import java.util.*;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-
+import java.util.Map;
+import java.util.List;
 /**
  * SJFScheduling class implementing the Shortest Job First (SJF) scheduling algorithm.
  */
@@ -52,6 +52,8 @@ public class SJFScheduling extends Scheduler {
 
                     process.setWaitingTime(process.getTurnaroundTime() - process.getBurstTime());
                     process.setStartTime(currentTime);
+
+                    process.setTime(List.of(Map.entry(process.getStartTime(), process.getFinishedTime())));
 
                     // Display process execution information
                     System.out.println("Process name : " + process.getName() + " : " + currentTime + " -> " + (currentTime + process.getBurstTime()));

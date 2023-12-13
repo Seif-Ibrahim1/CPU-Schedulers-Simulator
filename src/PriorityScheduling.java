@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+
 public class PriorityScheduling extends Scheduler implements StarvationHandler {
 
     private final ArrayList<Process> ReadyQueue ;
@@ -180,6 +183,8 @@ public class PriorityScheduling extends Scheduler implements StarvationHandler {
                    currentProcess.setStartTime(currentTime);
 
                    currentProcess.setFinishedTime(currentTime + currentProcess.getBurstTime());
+
+                   currentProcess.setTime(List.of(Map.entry(currentProcess.getStartTime(), currentProcess.getFinishedTime())));
 
                    currentProcess.setTurnaroundTime(currentProcess.getFinishedTime() - currentProcess.getArrivalTime());
 
