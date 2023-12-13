@@ -1,6 +1,9 @@
 import java.awt.*;
-import java.util.Comparator;
 
+/**
+ * Represents a Process entity in the scheduling system.
+ * Implements Comparable for comparing based on arrival time.
+ */
 public class Process implements Comparable<Process> {
     private String name;
     private int id;
@@ -16,6 +19,16 @@ public class Process implements Comparable<Process> {
     
     private int oldPriority;
 
+    /**
+     * Constructor to initialize a Process object.
+     *
+     * @param name         Process name
+     * @param arrivalTime  Arrival time of the process
+     * @param burstTime    Burst time of the process
+     * @param priority     Priority of the process
+     * @param id           Process ID
+     * @param color        Color representing the process
+     */
     public Process(String name, int arrivalTime, int burstTime, int priority, int id, Color color) {
         this.name = name;
         this.arrivalTime = arrivalTime;
@@ -31,101 +44,53 @@ public class Process implements Comparable<Process> {
         this.startTime = 0;
     }
 
-    //==================================================================================================================
-
     public int getOldPriority() {
         return oldPriority;
     }
 
-    //==================================================================================================================
+    public String getName() {return name;}
 
+    public int getArrivalTime() {return arrivalTime;}
 
-    public String getName() {
-        return name;
-    }
+    public int getBurstTime() {return burstTime;}
 
-    //==================================================================================================================
+    public int getPriority() {return priority;}
 
+    public int getTurnaroundTime() {return turnaroundTime;}
 
-    public int getArrivalTime() {
-        return arrivalTime;
-    }
+    public int getWaitingTime() {return waitingTime;}
 
-    //==================================================================================================================
+    public int getRemainingBurstTime() {return remainingBurstTime;}
 
+    public int getFinishedTime() {return finishedTime;}
 
+    public int getId() {return id;}
 
-    public int getBurstTime() {
-        return burstTime;
-    }
-
-    //==================================================================================================================
-
-
-
-    public int getPriority() {
-        return priority;
-    }
-
-    //==================================================================================================================
-
-    public int getTurnaroundTime() {
-        return turnaroundTime;
-    }
-
-    //==================================================================================================================
-
-    public int getWaitingTime() {
-        return waitingTime;
-    }
-
-    //==================================================================================================================
-
-    public int getRemainingBurstTime() {
-        return remainingBurstTime;
-    }
-
-    public int getFinishedTime() {
-        return finishedTime;
-    }
-
-    public int getId() {
-        return id;
-    }
     public Color getColor() {return color;}
+
     public int getStartTime() {return startTime;}
+
     public void setStartTime(int startTime) {this.startTime = startTime;}
+
     public void setColor(Color color) {this.color = color;}
 
-    public void setTurnaroundTime(int turnaroundTime) {
-        this.turnaroundTime = turnaroundTime;
-    }
 
-    public void setWaitingTime(int waitingTime) {
-        this.waitingTime = waitingTime;
-    }
+    public void setTurnaroundTime(int turnaroundTime) {this.turnaroundTime = turnaroundTime;}
 
-    public void setRemainingBurstTime(int remainingBurstTime) {
-        this.remainingBurstTime = remainingBurstTime;
-    }
 
-    public void setFinishedTime(int finishedTime) {
-        this.finishedTime = finishedTime;
-    }
+    public void setWaitingTime(int waitingTime) {this.waitingTime = waitingTime;}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public void setRemainingBurstTime(int remainingBurstTime) {this.remainingBurstTime = remainingBurstTime;}
 
-    public void setPriority(int priority) {
-        this.priority = priority;
-    }
+    public void setFinishedTime(int finishedTime) {this.finishedTime = finishedTime;}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public void setName(String name) {this.name = name;}
 
-    //==================================================================================================================
+    public void setPriority(int priority) {this.priority = priority;}
+
+    public void setId(int id) {this.id = id;}
+
+
 
     /**
      * calculate Turnaround Time.
@@ -136,7 +101,7 @@ public class Process implements Comparable<Process> {
         return finishedTime - arrivalTime;
     }
 
-    //==================================================================================================================
+
 
     /**
      * calculate Waiting Time.
@@ -146,7 +111,7 @@ public class Process implements Comparable<Process> {
     public int calculateWaitingTime() {
         return turnaroundTime - burstTime;
     }
-    //==================================================================================================================
+
 
     /**
      * for sorting processes by arrival time
