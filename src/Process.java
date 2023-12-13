@@ -1,7 +1,4 @@
-/**
- * Process class that contains attributes and methods are needed
- */
-public class Process implements Comparable<Process> {
+public class Process {
     private String name;
     private int id;
     private int arrivalTime;
@@ -11,6 +8,9 @@ public class Process implements Comparable<Process> {
     private int waitingTime;
     private int remainingBurstTime;
     private int finishedTime;
+
+    private int startTime;
+    private int oldPriority;
 
     //==================================================================================================================
 
@@ -28,11 +28,19 @@ public class Process implements Comparable<Process> {
         this.arrivalTime = arrivalTime;
         this.burstTime = burstTime;
         this.priority = priority;
+        this.oldPriority = priority;
         this.turnaroundTime = 0;
         this.waitingTime = 0;
         this.remainingBurstTime = burstTime;
         this.finishedTime = 0;
         this.id = id;
+        this.startTime = 0;
+    }
+
+    //==================================================================================================================
+
+    public int getOldPriority() {
+        return oldPriority;
     }
 
     //==================================================================================================================
@@ -159,6 +167,15 @@ public class Process implements Comparable<Process> {
         return turnaroundTime - burstTime;
     }
 
+    public int getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(int startTime) {
+        this.startTime = startTime;
+    }
+
+
     //==================================================================================================================
 
     /**
@@ -174,7 +191,7 @@ public class Process implements Comparable<Process> {
 
     //==================================================================================================================
 
-  
+
 }
 
-//==================================================================================================================
+
