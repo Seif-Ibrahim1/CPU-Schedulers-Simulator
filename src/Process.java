@@ -1,4 +1,7 @@
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.List;
 
 /**
  * Represents a Process entity in the scheduling system.
@@ -16,8 +19,9 @@ public class Process implements Comparable<Process> {
     private int remainingBurstTime;
     private int finishedTime;
     private int startTime;
-    
+
     private int oldPriority;
+    private List<Map.Entry<Integer , Integer>> time = new ArrayList<>();
 
     /**
      * Constructor to initialize a Process object.
@@ -42,6 +46,7 @@ public class Process implements Comparable<Process> {
         this.id = id;
         this.color = color;
         this.startTime = 0;
+        this.time = new ArrayList<>();
     }
 
     public int getOldPriority() {
@@ -90,7 +95,12 @@ public class Process implements Comparable<Process> {
 
     public void setId(int id) {this.id = id;}
 
-
+    public void setTime(List<Map.Entry<Integer, Integer>> time) {
+        this.time = time;
+    }
+    public List<Map.Entry<Integer, Integer>> getTime() {
+        return time;
+    }
 
     /**
      * calculate Turnaround Time.
