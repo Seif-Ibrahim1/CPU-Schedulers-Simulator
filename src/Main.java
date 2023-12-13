@@ -19,13 +19,14 @@ public class Main {
 
         Collections.sort(processes, Comparator.comparingInt(Process::getArrivalTime));
 
-        SJFScheduling scheduler = new SJFScheduling(processes, 2);
+        SJFScheduling scheduler = new SJFScheduling(processes, 1);
 
         scheduler.run();
         double averageWaitingTime = scheduler.getAverageWaitingTime();
         double averageTurnaroundTime = scheduler.getAverageTurnAroundTime();
+        int contextSwitchingTime = scheduler.contextSwitchTime;
         SwingUtilities.invokeLater(() -> {
-            GanttChartGUI chart = new GanttChartGUI(processes, averageWaitingTime, averageTurnaroundTime);
+            GanttChartGUI chart = new GanttChartGUI(processes, averageWaitingTime, averageTurnaroundTime, contextSwitchingTime);
             chart.setVisible(true);
         });
     }
