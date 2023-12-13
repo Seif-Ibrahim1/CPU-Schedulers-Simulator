@@ -16,17 +16,6 @@ public class Process implements Comparable<Process> {
     
     private int oldPriority;
 
-    //==================================================================================================================
-
-    /**
-     * constructor for Process class.
-     *
-     * @param name           of the process.
-     * @param arrivalTime    of the process.
-     * @param burstTime      of the process.
-     * @param priority       of the process.
-     * @param id             of the process.
-     */
     public Process(String name, int arrivalTime, int burstTime, int priority, int id, Color color) {
         this.name = name;
         this.arrivalTime = arrivalTime;
@@ -96,13 +85,9 @@ public class Process implements Comparable<Process> {
         return remainingBurstTime;
     }
 
-    //==================================================================================================================
-
     public int getFinishedTime() {
         return finishedTime;
     }
-
-    //==================================================================================================================
 
     public int getId() {
         return id;
@@ -112,43 +97,29 @@ public class Process implements Comparable<Process> {
     public void setStartTime(int startTime) {this.startTime = startTime;}
     public void setColor(Color color) {this.color = color;}
 
-    //==================================================================================================================
-
     public void setTurnaroundTime(int turnaroundTime) {
         this.turnaroundTime = turnaroundTime;
     }
-
-    //==================================================================================================================
 
     public void setWaitingTime(int waitingTime) {
         this.waitingTime = waitingTime;
     }
 
-    //==================================================================================================================
-
     public void setRemainingBurstTime(int remainingBurstTime) {
         this.remainingBurstTime = remainingBurstTime;
     }
-
-    //==================================================================================================================
 
     public void setFinishedTime(int finishedTime) {
         this.finishedTime = finishedTime;
     }
 
-    //==================================================================================================================
-
     public void setName(String name) {
         this.name = name;
     }
 
-    //==================================================================================================================
-
     public void setPriority(int priority) {
         this.priority = priority;
     }
-
-    //==================================================================================================================
 
     public void setId(int id) {
         this.id = id;
@@ -186,16 +157,4 @@ public class Process implements Comparable<Process> {
     @Override
     public int compareTo(Process process) {
         return Integer.compare(this.arrivalTime, process.arrivalTime);
-    }
-
-}
-
-
-
-
-
-
-
-    //=================================================================================================================
-
-
+    }}
