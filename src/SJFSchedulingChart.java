@@ -3,9 +3,10 @@ import java.awt.*;
 import java.util.ArrayList;
 
 /**
- * SJFSchedulingChart class extends JFrame to display a Gantt chart representing the Shortest Job First (SJF) scheduling algorithm.
+ * SJFSchedulingChart class extends GUI to display a Gantt chart representing
+ * the Shortest Job First (SJF) scheduling algorithm.
  */
-public class SJFSchedulingChart extends GUI{
+public class SJFSchedulingChart extends GUI {
     private int contextSwitchingTime;
 
     /**
@@ -16,7 +17,8 @@ public class SJFSchedulingChart extends GUI{
      * @param averageTurnaroundTime  Average turnaround time of the schedule
      * @param contextSwitchingTime   Time taken for context switching
      */
-    public SJFSchedulingChart(ArrayList<Process> processes, double averageWaitingTime, double averageTurnaroundTime, int contextSwitchingTime) {
+    public SJFSchedulingChart(ArrayList<Process> processes, double averageWaitingTime,
+                              double averageTurnaroundTime, int contextSwitchingTime) {
         super(processes, averageWaitingTime, averageTurnaroundTime);
         this.contextSwitchingTime = contextSwitchingTime;
     }
@@ -36,10 +38,12 @@ public class SJFSchedulingChart extends GUI{
         int y = 50;
         int totalExecutionTime = calculateMaxTime();
 
+        // Find the maximum execution time among processes
         for (Process process : processes) {
             totalExecutionTime = Math.max(totalExecutionTime, process.getFinishedTime());
         }
 
+        // Draw bars for each process
         for (Process process : processes) {
             int executionStart = process.getStartTime();
             int executionEnd = process.getFinishedTime() - contextSwitchingTime;
@@ -53,17 +57,23 @@ public class SJFSchedulingChart extends GUI{
             g.setColor(process.getColor());
             g.fillRect(50 + barStart, y, barLength, 30);
 
-            // Filling the gap between the end of the process and the start of the next process with black color
+            // Fill the gap between the end of the process and the start of the next process with black color
             g.setColor(Color.BLACK);
             g.fillRect(50 + barStart + barLength, y, contextSwitchingBarLength, 30);
 
             y += 50;
         }
-        displayProcessInfo(g);
-        displayStatistics(g, "SJFSchedule");
+        displayProcessInfo(g); // Display process information
+        displayStatistics(g, "SJFSchedule"); // Display scheduling statistics
     }
-    protected void displayProcessInfo(Graphics g){
-        super.displayProcessInfo(g);
+
+    /**
+     * Method to display process information including context switching time.
+     *
+     * @param g Graphics object used for drawing
+     */
+    protected void displayProcessInfo(Graphics g) {
+        super.displayProcessInfo(g); // Invoke the superclass method
         g.drawString("Context Switching Time: " + contextSwitchingTime, 700, y + 15);
         g.setColor(Color.BLACK);
         g.fillRect(900, y, 20, 20);
