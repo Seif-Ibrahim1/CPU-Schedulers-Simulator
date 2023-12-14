@@ -1,6 +1,16 @@
-public class Process {
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.List;
+
+/**
+ * Represents a Process entity in the scheduling system.
+ * Implements Comparable for comparing based on arrival time.
+ */
+public class Process implements Comparable<Process> {
     private String name;
     private int id;
+    private Color color;
     private int arrivalTime;
     private int burstTime;
     private int priority;
@@ -8,22 +18,22 @@ public class Process {
     private int waitingTime;
     private int remainingBurstTime;
     private int finishedTime;
-
     private int startTime;
-    private int oldPriority;
 
-    //==================================================================================================================
+    private int oldPriority;
+    private List<Map.Entry<Integer , Integer>> time = new ArrayList<>();
 
     /**
-     * constructor for Process class.
+     * Constructor to initialize a Process object.
      *
-     * @param name           of the process.
-     * @param arrivalTime    of the process.
-     * @param burstTime      of the process.
-     * @param priority       of the process.
-     * @param id             of the process.
+     * @param name         Process name
+     * @param arrivalTime  Arrival time of the process
+     * @param burstTime    Burst time of the process
+     * @param priority     Priority of the process
+     * @param id           Process ID
+     * @param color        Color representing the process
      */
-    public Process(String name, int arrivalTime, int burstTime, int priority, int id) {
+    public Process(String name, int arrivalTime, int burstTime, int priority, int id, Color color) {
         this.name = name;
         this.arrivalTime = arrivalTime;
         this.burstTime = burstTime;
@@ -34,118 +44,63 @@ public class Process {
         this.remainingBurstTime = burstTime;
         this.finishedTime = 0;
         this.id = id;
+        this.color = color;
         this.startTime = 0;
+        this.time = new ArrayList<>();
     }
-
-    //==================================================================================================================
 
     public int getOldPriority() {
         return oldPriority;
     }
 
-    //==================================================================================================================
+    public String getName() {return name;}
+
+    public int getArrivalTime() {return arrivalTime;}
+
+    public int getBurstTime() {return burstTime;}
+
+    public int getPriority() {return priority;}
+
+    public int getTurnaroundTime() {return turnaroundTime;}
+
+    public int getWaitingTime() {return waitingTime;}
+
+    public int getRemainingBurstTime() {return remainingBurstTime;}
+
+    public int getFinishedTime() {return finishedTime;}
+
+    public int getId() {return id;}
+
+    public Color getColor() {return color;}
+
+    public int getStartTime() {return startTime;}
+
+    public void setStartTime(int startTime) {this.startTime = startTime;}
+
+    public void setColor(Color color) {this.color = color;}
 
 
-    public String getName() {
-        return name;
+    public void setTurnaroundTime(int turnaroundTime) {this.turnaroundTime = turnaroundTime;}
+
+
+    public void setWaitingTime(int waitingTime) {this.waitingTime = waitingTime;}
+
+    public void setRemainingBurstTime(int remainingBurstTime) {this.remainingBurstTime = remainingBurstTime;}
+
+    public void setFinishedTime(int finishedTime) {this.finishedTime = finishedTime;}
+
+    public void setName(String name) {this.name = name;}
+
+    public void setPriority(int priority) {this.priority = priority;}
+
+    public void setId(int id) {this.id = id;}
+
+    public void setTime(List<Map.Entry<Integer, Integer>> time) {
+        this.time = time;
     }
-
-    //==================================================================================================================
-
-
-    public int getArrivalTime() {
-        return arrivalTime;
+    public List<Map.Entry<Integer, Integer>> getTime() {
+        return time;
     }
-
-    //==================================================================================================================
-
-
-
-    public int getBurstTime() {
-        return burstTime;
-    }
-
-    //==================================================================================================================
-
-
-
-    public int getPriority() {
-        return priority;
-    }
-
-    //==================================================================================================================
-
-    public int getTurnaroundTime() {
-        return turnaroundTime;
-    }
-
-    //==================================================================================================================
-
-    public int getWaitingTime() {
-        return waitingTime;
-    }
-
-    //==================================================================================================================
-
-    public int getRemainingBurstTime() {
-        return remainingBurstTime;
-    }
-
-    //==================================================================================================================
-
-    public int getFinishedTime() {
-        return finishedTime;
-    }
-
-    //==================================================================================================================
-
-    public int getId() {
-        return id;
-    }
-
-    //==================================================================================================================
-
-    public void setTurnaroundTime(int turnaroundTime) {
-        this.turnaroundTime = turnaroundTime;
-    }
-
-    //==================================================================================================================
-
-    public void setWaitingTime(int waitingTime) {
-        this.waitingTime = waitingTime;
-    }
-
-    //==================================================================================================================
-
-    public void setRemainingBurstTime(int remainingBurstTime) {
-        this.remainingBurstTime = remainingBurstTime;
-    }
-
-    //==================================================================================================================
-
-    public void setFinishedTime(int finishedTime) {
-        this.finishedTime = finishedTime;
-    }
-
-    //==================================================================================================================
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    //==================================================================================================================
-
-    public void setPriority(int priority) {
-        this.priority = priority;
-    }
-
-    //==================================================================================================================
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    //==================================================================================================================
 
     /**
      * calculate Turnaround Time.
@@ -156,7 +111,7 @@ public class Process {
         return finishedTime - arrivalTime;
     }
 
-    //==================================================================================================================
+
 
     /**
      * calculate Waiting Time.
@@ -167,16 +122,6 @@ public class Process {
         return turnaroundTime - burstTime;
     }
 
-    public int getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(int startTime) {
-        this.startTime = startTime;
-    }
-
-
-    //==================================================================================================================
 
     /**
      * for sorting processes by arrival time
@@ -187,11 +132,4 @@ public class Process {
     @Override
     public int compareTo(Process process) {
         return Integer.compare(this.arrivalTime, process.arrivalTime);
-    }
-
-    //==================================================================================================================
-
-
-}
-
-
+    }}

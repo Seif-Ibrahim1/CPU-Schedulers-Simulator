@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+
 public class PriorityScheduling extends Scheduler implements StarvationHandler {
 
     private final ArrayList<Process> ReadyQueue ;
@@ -134,8 +137,8 @@ public class PriorityScheduling extends Scheduler implements StarvationHandler {
 //        processes.sort(Comparator.comparingInt(Process::getArrivalTime));
 
         int i = 0;
-        System.out.println("Process"+'\t'+'\t'+"Arrival Time"+'\t'+'\t'+"Burst Time"+'\t'+'\t'+"OldPriority"+'\t'+'\t'+"NewPriority"+
-                '\t'+'\t'+ "Start Time"+'\t'+'\t'+"Finish Time"+'\t'+'\t'+"Turnaround Time"+'\t'+'\t'+"Waiting Time");
+        System.out.printf("%-10s %-15s %-10s %-12s %-12s %-12s %-12s\n", "Process", "Arrival Time", "Burst Time",
+        "OldPriority", "NewPriority", "Start Time", "Finish Time");
 
 
         /**
@@ -181,14 +184,19 @@ public class PriorityScheduling extends Scheduler implements StarvationHandler {
 
                    currentProcess.setFinishedTime(currentTime + currentProcess.getBurstTime());
 
+                   currentProcess.setTime(List.of(Map.entry(currentProcess.getStartTime(), currentProcess.getFinishedTime())));
+
                    currentProcess.setTurnaroundTime(currentProcess.getFinishedTime() - currentProcess.getArrivalTime());
 
                    currentProcess.setWaitingTime(currentProcess.getTurnaroundTime() - currentProcess.getBurstTime());
 
                    // display the current process
 
-                   System.out.println(" "+currentProcess.getName()+'\t'+'\t'+'\t'+'\t'+currentProcess.getArrivalTime()+'\t'+'\t'+'\t'+'\t'+'\t'+currentProcess.getBurstTime()+'\t'+'\t'+'\t'+'\t'+currentProcess.getOldPriority()+'\t'+'\t'+'\t'+'\t'+currentProcess.getPriority()+'\t'+'\t'+'\t'+'\t'+currentProcess.getStartTime()+'\t'+'\t'+'\t'+'\t'+currentProcess.getFinishedTime()+'\t'+'\t'+'\t'+'\t'+" "+currentProcess.getTurnaroundTime()+'\t'+'\t'+'\t'+'\t'+'\t'+currentProcess.getWaitingTime());
-
+                   System.out.printf(" %-10s %-15s %-10s %-12s %-12s %-12s %-12s\n",
+                                        currentProcess.getName(), currentProcess.getArrivalTime(),
+                                        currentProcess.getBurstTime(), currentProcess.getOldPriority(),
+                                        currentProcess.getPriority(), currentProcess.getStartTime(),
+                                        currentProcess.getFinishedTime());
                    // update the current time
 
                    currentTime = currentProcess.getFinishedTime();
@@ -206,12 +214,18 @@ public class PriorityScheduling extends Scheduler implements StarvationHandler {
         }
 
         // Display Average Waiting Time and Average Turnaround Time after all processes are executed
+        printProcessNames();
+        // Display Average Waiting Time and Average Turnaround Time after all processes are executed
+        System.out.println("=".repeat(100));
+        printTurnAroundTime();
 
-        System.out.println("=".repeat(145));
+        System.out.println("=".repeat(100));
+        printWaitingTime();
+        System.out.println("=".repeat(100));
         System.out.println("Average Turnaround Time : " + getAverageTurnAroundTime());
-        System.out.println("=".repeat(145));
+        System.out.println("=".repeat(100));
         System.out.println("Average Waiting Time : " + getAverageWaitingTime());
-        System.out.println("=".repeat(145));
+        System.out.println("=".repeat(100));
     }
 }
 

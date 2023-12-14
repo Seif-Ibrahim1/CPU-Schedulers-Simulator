@@ -1,12 +1,9 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-
+import java.util.*;
 /**
  * SJFScheduling class implementing the Shortest Job First (SJF) scheduling algorithm.
  */
 public class SJFScheduling extends Scheduler {
-    private int contextSwitchTime;
+    public int contextSwitchTime;
 
     /**
      * Constructor for SJFScheduling class.
@@ -51,6 +48,9 @@ public class SJFScheduling extends Scheduler {
                     process.setTurnaroundTime(process.getFinishedTime() - process.getArrivalTime());
 
                     process.setWaitingTime(process.getTurnaroundTime() - process.getBurstTime());
+                    process.setStartTime(currentTime);
+
+                    process.setTime(List.of(Map.entry(process.getStartTime(), process.getFinishedTime())));
 
                     // Display process execution information
                     System.out.println("Process name : " + process.getName() + " : " + currentTime + " -> " + (currentTime + process.getBurstTime()));
@@ -62,17 +62,18 @@ public class SJFScheduling extends Scheduler {
             }
         }
 
+        printProcessNames();
         // Display Average Waiting Time and Average Turnaround Time after all processes are executed
-        System.out.println("==========================================================================");
+        System.out.println("=".repeat(100));
         printTurnAroundTime();
 
-        System.out.println("==========================================================================");
+        System.out.println("=".repeat(100));
         printWaitingTime();
 
-        System.out.println("==========================================================================");
+        System.out.println("=".repeat(100));
         System.out.println("Average Waiting Time : " + getAverageWaitingTime());
 
-        System.out.println("==========================================================================");
+        System.out.println("=".repeat(100));
         System.out.println("Average Turnaround Time : " + getAverageTurnAroundTime());
 
     }

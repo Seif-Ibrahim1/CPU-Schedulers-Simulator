@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * SRTFScheduling class implementing the Shortest Remaining Time First scheduling algorithm (preemptive algorithm).
@@ -37,6 +39,9 @@ public class SRTFScheduling extends Scheduler implements StarvationHandler {
                 if(checkForStravation(processes.get(i))){
                     executionOrder.add(processes.get(i).getName());
 
+                    //set the start and finish time of the process into the time list
+                    processes.get(i).setTime(List.of(Map.entry(currentTime, currentTime + processes.get(i).getRemainingBurstTime())));
+
 //                    System.out.println("Process name: " + processes.get(i).getName() + " : " + currentTime + " -> " + (currentTime + processes.get(i).getRemainingBurstTime()));
                     currentTime += processes.get(i).getRemainingBurstTime();
                     processes.get(i).setFinishedTime(currentTime);
@@ -71,6 +76,7 @@ public class SRTFScheduling extends Scheduler implements StarvationHandler {
 
             //reduce the remaining time of the process by 1\
             processes.get(shortestRTIndx).setRemainingBurstTime(processes.get(shortestRTIndx).getRemainingBurstTime() - 1);
+
             //update waiting time for all the processes except the one with the shortest remaining time
             for(int i = 0; i < processes.size(); i++) {
                 if (i != shortestRTIndx && processes.get(i).getArrivalTime() <= currentTime && processes.get(i).getRemainingBurstTime() > 0) {
@@ -79,6 +85,26 @@ public class SRTFScheduling extends Scheduler implements StarvationHandler {
             }
 
 //            System.out.println("Process name: " + processes.get(shortestRTIndx).getName() + " : " + currentTime + " -> " + (currentTime + 1));
+
+            //set the start and finish time of the process into the time list
+            List<Map.Entry<Integer, Integer>> timeList = processes.get(shortestRTIndx).getTime();
+//            timeList.add(Map.entry(currentTime, currentTime + 1));
+            if(!timeList.isEmpty()){
+                Map.Entry<Integer, Integer> lastEntry = timeList.get(timeList.size() - 1);
+                if(lastEntry.getValue() == currentTime){
+                    timeList.remove(timeList.size() - 1);
+                    timeList.add(Map.entry(lastEntry.getKey(), lastEntry.getValue() + 1));
+                }
+                else{
+                    timeList.add(Map.entry(currentTime, currentTime + 1));
+                }
+            }
+            else{
+                timeList.add(Map.entry(currentTime, currentTime + 1));
+            }
+
+
+            //increment the current time
             currentTime++;
 
 
@@ -88,6 +114,7 @@ public class SRTFScheduling extends Scheduler implements StarvationHandler {
 
                 //update the shortestRT value
                 shortestRT = Integer.MAX_VALUE;
+
 
                 //completion time of current process = current time
                 processes.get(shortestRTIndx).setFinishedTime(currentTime);
@@ -105,6 +132,20 @@ public class SRTFScheduling extends Scheduler implements StarvationHandler {
             }
         }
         printExecutionOrder(executionOrder);
+        printProcessNames();
+        // Display Average Waiting Time and Average Turnaround Time after all processes are executed
+        System.out.println("=".repeat(100));
+        printTurnAroundTime();
+
+        System.out.println("=".repeat(100));
+        printWaitingTime();
+
+        System.out.println("=".repeat(100));
+        System.out.println("Average Waiting Time : " + getAverageWaitingTime());
+
+        System.out.println("=".repeat(100));
+        System.out.println("Average Turnaround Time : " + getAverageTurnAroundTime());
+
     }
 
     /**
@@ -122,6 +163,6 @@ public class SRTFScheduling extends Scheduler implements StarvationHandler {
                 System.out.print(" -> " + executionOrder.get(i));
             }
         }
-        System.out.println();
+        System.out.println();        
     }
 }
