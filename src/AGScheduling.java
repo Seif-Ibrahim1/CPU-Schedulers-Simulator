@@ -444,23 +444,23 @@ public class AGScheduling extends Scheduler {
         }
 
         //==================================================================================================================
-
-        System.out.println("=".repeat(75));
+        printProcessNames();
+        System.out.println("=".repeat(100));
         printTurnAroundTime();
-        System.out.println("=".repeat(75));
+        System.out.println("=".repeat(100));
         printWaitingTime();
-        System.out.println("=".repeat(75));
+        System.out.println("=".repeat(100));
 
         double AVGWaitingTime = getAverageWaitingTime();
         System.out.println("Average Waiting Time : " + AVGWaitingTime);
-        System.out.println("=".repeat(75));
+        System.out.println("=".repeat(100));
 
         double AVGTurnaroundTime = getAverageTurnAroundTime();
         System.out.println("Average Turnaround Time : " + AVGTurnaroundTime);
-        System.out.println("=".repeat(75));
+        System.out.println("=".repeat(100));
         System.out.println("History of quantum time of all processes");
         printQuantumHistory();
-        System.out.println("=".repeat(75));
+        System.out.println("=".repeat(100));
 
         //==================================================================================================================
 

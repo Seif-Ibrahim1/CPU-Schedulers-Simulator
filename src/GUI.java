@@ -37,7 +37,7 @@ public class GUI extends JFrame {
 
         setTitle("Gantt Chart"); // Set title of the window
         setSize(1200, 800);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null); // Set window location to center
 
         // Panel to draw the chart

@@ -132,6 +132,20 @@ public class SRTFScheduling extends Scheduler implements StarvationHandler {
             }
         }
         printExecutionOrder(executionOrder);
+        printProcessNames();
+        // Display Average Waiting Time and Average Turnaround Time after all processes are executed
+        System.out.println("=".repeat(100));
+        printTurnAroundTime();
+
+        System.out.println("=".repeat(100));
+        printWaitingTime();
+
+        System.out.println("=".repeat(100));
+        System.out.println("Average Waiting Time : " + getAverageWaitingTime());
+
+        System.out.println("=".repeat(100));
+        System.out.println("Average Turnaround Time : " + getAverageTurnAroundTime());
+
     }
 
     /**
@@ -149,6 +163,6 @@ public class SRTFScheduling extends Scheduler implements StarvationHandler {
                 System.out.print(" -> " + executionOrder.get(i));
             }
         }
-        System.out.println();
+        System.out.println();        
     }
 }

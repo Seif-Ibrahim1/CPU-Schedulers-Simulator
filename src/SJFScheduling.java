@@ -1,7 +1,4 @@
 import java.util.*;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.List;
 /**
  * SJFScheduling class implementing the Shortest Job First (SJF) scheduling algorithm.
  */
@@ -65,17 +62,18 @@ public class SJFScheduling extends Scheduler {
             }
         }
 
+        printProcessNames();
         // Display Average Waiting Time and Average Turnaround Time after all processes are executed
-        System.out.println("==========================================================================");
+        System.out.println("=".repeat(100));
         printTurnAroundTime();
 
-        System.out.println("==========================================================================");
+        System.out.println("=".repeat(100));
         printWaitingTime();
 
-        System.out.println("==========================================================================");
+        System.out.println("=".repeat(100));
         System.out.println("Average Waiting Time : " + getAverageWaitingTime());
 
-        System.out.println("==========================================================================");
+        System.out.println("=".repeat(100));
         System.out.println("Average Turnaround Time : " + getAverageTurnAroundTime());
 
     }
