@@ -8,7 +8,7 @@ public class Main {
 
     public static void main(String[] args) {
         ArrayList<Process> processes = new ArrayList<>();
-        processes.add(new Process("P1", 0, 4, 1, 1,Color.gray));
+        processes.add(new Process("P1", 0, 10, 1, 1,Color.gray));
 
         processes.add(new Process("P2", 2, 3, 2, 2,Color.PINK));
 
@@ -18,14 +18,14 @@ public class Main {
 
         Collections.sort(processes, Comparator.comparingInt(Process::getArrivalTime));
 
-        SJFScheduling scheduler = new SJFScheduling(processes, 1);
+        AGScheduling scheduler = new AGScheduling(processes, 2);
 
         scheduler.run();
         double averageWaitingTime = scheduler.getAverageWaitingTime();
         double averageTurnaroundTime = scheduler.getAverageTurnAroundTime();
-        int contextSwitchingTime = scheduler.contextSwitchTime;
+        int contextSwitchingTime = 0;
         SwingUtilities.invokeLater(() -> {
-            SJFSchedulingChart chart = new SJFSchedulingChart(processes, averageWaitingTime, averageTurnaroundTime, contextSwitchingTime);
+            GUI chart = new GUI(processes, averageWaitingTime, averageTurnaroundTime, "SRTF");
             chart.setVisible(true);
         });
     }

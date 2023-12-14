@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -85,6 +86,13 @@ public class AGScheduling extends Scheduler {
     }
 
     //==================================================================================================================
+
+    public void setStartAndFinishTime(Process runningProcess, int startedTime, int time)
+    {
+        runningProcess.getTime().add(Map.entry(startedTime, time));
+        
+    
+    }
 
 
     /**
@@ -294,6 +302,7 @@ public class AGScheduling extends Scheduler {
             {
 
                 System.out.println("process name : " + runningProcess.getName() + " : " + startedTime + " -> " + time);
+                setStartAndFinishTime(runningProcess, startedTime, time);
                 startedTime = time;
 
                 // process still has job to do (scenario 1)
@@ -349,10 +358,11 @@ public class AGScheduling extends Scheduler {
             if(runningProcess.getRemainingBurstTime()==0)
             {
                 System.out.println("process name : " + runningProcess.getName() + " : " + startedTime + " -> " + time);
+                setStartAndFinishTime(runningProcess, startedTime, time);
                 startedTime = time;
+                // timeList.add(Map.entry(lastEntry.getKey(), lastEntry.getValue() + 1));
 
                 // execute the process and check if there is process in ready queue to execute next
-                // if there is no process in ready queue
                 if(!finishProcess(runningProcess, time))
                 {
                     time++;
@@ -411,6 +421,7 @@ public class AGScheduling extends Scheduler {
                     else
                     {
                         System.out.println("process name : " + runningProcess.getName() + " : " + startedTime + " -> " + time);
+                        setStartAndFinishTime(runningProcess, startedTime, time);
                         int unusedQuantum = currentTimeQuantams.get(runningProcess.getId()) - (time - startedTime);
                         int newQuantum = currentTimeQuantams.get(runningProcess.getId()) + unusedQuantum;
                         currentTimeQuantams.put(runningProcess.getId(), newQuantum );

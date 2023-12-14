@@ -80,20 +80,20 @@ public class GUI extends JFrame {
             //loop over the time list of the process
             int executionStart = 0;
             int executionEnd = 0;
+            g.setColor(Color.BLACK);
+            g.drawString(process.getName(), 10, y + 20);
             for (int i = 0; i < process.getTime().size(); i++) {
                 executionStart = process.getTime().get(i).getKey();
                 executionEnd = process.getTime().get(i).getValue();
                 int barStart = (int) (((double) executionStart / totalExecutionTime) * 500);
                 int barLength = (int) (((double) (executionEnd - executionStart) / totalExecutionTime) * 500);
 
-                g.setColor(Color.BLACK);
-                g.drawString(process.getName(), 10, y + 20);
-
                 g.setColor(process.getColor());
                 g.fillRect(50 + barStart, y, barLength, 30);
 
-                y += 50;
+                
             }
+            y += 50;
         }
         displayProcessInfo(g); // Display process information
         displayStatistics(g,scheduleName); // Display scheduling statistics
