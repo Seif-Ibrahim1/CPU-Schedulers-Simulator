@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * Abstract class defining a GUI for displaying scheduling information.
@@ -13,6 +15,10 @@ public class GUI extends JFrame {
     protected double averageWaitingTime;
 
     protected double averageTurnaroundTime;
+
+    protected HashMap<Integer, ArrayList<Integer>> quantumHistory = new HashMap<Integer, ArrayList<Integer>>();
+
+    protected int contextSwitchingTime = 0;
 
     // Static variable for vertical positioning
     public static int y = 50;
@@ -30,7 +36,7 @@ public class GUI extends JFrame {
         this.averageTurnaroundTime = averageTurnaroundTime;
 
         setTitle("Gantt Chart"); // Set title of the window
-        setSize(1200, 600);
+        setSize(1200, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null); // Set window location to center
 
@@ -48,6 +54,16 @@ public class GUI extends JFrame {
         add(scrollPane); // Add panel to the frame
 
         setVisible(true); // Set the frame visible
+    }
+
+    public GUI(ArrayList<Process> processes, double averageWaitingTime, double averageTurnaroundTime , String scheduleName, HashMap<Integer, ArrayList<Integer>> quantumHistory) {
+        this(processes, averageWaitingTime, averageTurnaroundTime , scheduleName);
+        this.quantumHistory = quantumHistory;
+    }
+
+    public GUI(ArrayList<Process> processes, double averageWaitingTime, double averageTurnaroundTime , String scheduleName, int contextSwitchingTime) {
+        this(processes, averageWaitingTime, averageTurnaroundTime , scheduleName);
+        this.contextSwitchingTime = contextSwitchingTime;
     }
 
     /**
@@ -80,20 +96,24 @@ public class GUI extends JFrame {
             //loop over the time list of the process
             int executionStart = 0;
             int executionEnd = 0;
+            int contextSwitchingBarLength = (int) (((double) contextSwitchingTime / totalExecutionTime) * 500);
             g.setColor(Color.BLACK);
             g.drawString(process.getName(), 10, y + 20);
             for (int i = 0; i < process.getTime().size(); i++) {
                 executionStart = process.getTime().get(i).getKey();
-                executionEnd = process.getTime().get(i).getValue();
+                executionEnd = process.getTime().get(i).getValue() - contextSwitchingTime;
                 int barStart = (int) (((double) executionStart / totalExecutionTime) * 500);
                 int barLength = (int) (((double) (executionEnd - executionStart) / totalExecutionTime) * 500);
 
                 g.setColor(process.getColor());
                 g.fillRect(50 + barStart, y, barLength, 30);
+                g.setColor(Color.BLACK);
+                g.fillRect(50 + barStart + barLength, y, contextSwitchingBarLength, 30);
 
                 
             }
             y += 50;
+            
         }
         displayProcessInfo(g); // Display process information
         displayStatistics(g,scheduleName); // Display scheduling statistics
@@ -126,6 +146,14 @@ public class GUI extends JFrame {
 
             y += 50; // Increment y position for next process
         }
+
+        if(contextSwitchingTime != 0 ) {
+            g.drawString("Context Switching Time: " + contextSwitchingTime, 700, y + 15);
+            g.setColor(Color.BLACK);
+            g.fillRect(900, y, 20, 20);
+        }
+
+        
     }
 
     /**
@@ -145,6 +173,23 @@ public class GUI extends JFrame {
         g.drawString("Average Waiting Time: " + averageWaitingTime, 50, 500); // Display average waiting time
         g.setColor(Color.BLACK);
         g.drawString("Average Turnaround Time: " + averageTurnaroundTime, 50, 530); // Display average turnaround time
+        
+        int yCoord = 560;
+        for(Map.Entry<Integer, ArrayList<Integer>> entry : quantumHistory.entrySet())
+        {
+            Integer key = entry.getKey();
+            ArrayList<Integer> values = entry.getValue();
+            String name = getProcessName(key);
+            String processHistory = "";
+        
+            for (Integer value : values) {
+                processHistory += value + " ";
+            }
+            g.setColor(Color.BLACK);
+            g.drawString("Quantum History for process " + name + " : " + processHistory, 50, yCoord);
+            yCoord+=30;
+        }
+        
     }
 
     /**
@@ -161,5 +206,15 @@ public class GUI extends JFrame {
             }
         }
         return maxTime; // Return the maximum time
+    }
+
+    protected String getProcessName(int id){
+        for(Process process : processes){
+            if(process.getId() == id){
+                return process.getName();
+            }
+        }
+
+        return "";
     }
 }

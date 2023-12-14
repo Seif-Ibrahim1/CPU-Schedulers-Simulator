@@ -94,6 +94,10 @@ public class AGScheduling extends Scheduler {
     
     }
 
+    public HashMap<Integer, ArrayList<Integer>> getQuantumHistory() {
+        return quantumHistory;
+    }
+
 
     /**
      * Print all history update of quantum time for each process.
