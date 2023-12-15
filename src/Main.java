@@ -6,6 +6,17 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Scanner;
 
+/**
+ *
+ * Ahmed Saad          20210020
+ * Seif Ibrahim        20210164
+ * Shahd Osama         20211052
+ * Shahd Mostafa       20211054
+ * Maryam Osama        20211090
+ *
+ * Group : IT S1&S2
+ *
+ */
 public class Main {
 
     enum SupportedColor {
