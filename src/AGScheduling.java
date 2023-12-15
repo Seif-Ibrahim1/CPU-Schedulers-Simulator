@@ -87,6 +87,13 @@ public class AGScheduling extends Scheduler {
 
     //==================================================================================================================
 
+    /**
+     * add interval to the process.
+     *
+     * @param runningProcess that we want to add to it the interval.
+     * @param startedTime the start time of the interval.
+     * @param time the end time of the interval.
+     */
     public void setStartAndFinishTime(Process runningProcess, int startedTime, int time)
     {
         runningProcess.getTime().add(Map.entry(startedTime, time));
@@ -94,10 +101,17 @@ public class AGScheduling extends Scheduler {
     
     }
 
+    //==================================================================================================================
+
+    /**
+     *
+     * @return the quantum time history for all processes.
+     */
     public HashMap<Integer, ArrayList<Integer>> getQuantumHistory() {
         return quantumHistory;
     }
 
+    //==================================================================================================================
 
     /**
      * Print all history update of quantum time for each process.
@@ -352,7 +366,7 @@ public class AGScheduling extends Scheduler {
                         runningProcess = reeadyQueue.get(0);
                         reeadyQueue.remove(0);
                     }
-                    
+
                     continue;
                 }
             }
